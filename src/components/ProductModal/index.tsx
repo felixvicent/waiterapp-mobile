@@ -4,7 +4,7 @@ import { Button } from '../Button';
 import { Close } from '../Icons/Close';
 
 import { Text } from '../Text';
-import { Product } from '../types/Product';
+import { Product } from '../../types/Product';
 import {
   CloseButton,
   Image,

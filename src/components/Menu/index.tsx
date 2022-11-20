@@ -6,7 +6,7 @@ import { PlusCircle } from '../Icons/PlusCircle';
 
 import { ProductModal } from '../ProductModal';
 import { Text } from '../Text';
-import { Product } from '../types/Product';
+import { Product } from '../../types/Product';
 
 import {
   ProductContainer,

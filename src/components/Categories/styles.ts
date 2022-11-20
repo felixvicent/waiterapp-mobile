@@ -4,9 +4,10 @@ import styled from 'styled-components/native';
 
 const isAndroid = Platform.OS === 'android';
 
-export const Category = styled.TouchableOpacity`
+export const CategoryContainer = styled.TouchableOpacity`
   align-items: center;
   margin-left: 24px;
+  width: 80px;
 `;
 
 export const Icon = styled.View`
