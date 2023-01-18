@@ -1,7 +1,7 @@
-import styled from 'styled-components/native';
-import { Platform, StatusBar } from 'react-native';
+import styled from "styled-components/native";
+import { Platform, StatusBar } from "react-native";
 
-const isAndroid = Platform.OS === 'android';
+const isAndroid = Platform.OS === "android";
 
 export const Container = styled.SafeAreaView`
   margin-top: ${isAndroid ? `${StatusBar.currentHeight}px` : 0};
@@ -24,8 +24,7 @@ export const Footer = styled.View`
   padding: 16px 24px;
 `;
 
-export const FooterContainer = styled.SafeAreaView`
-`;
+export const FooterContainer = styled.SafeAreaView``;
 
 export const CenteredContainer = styled.SafeAreaView`
   flex: 1;

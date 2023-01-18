@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { useEffect, useState } from "react";
+import { ActivityIndicator } from "react-native";
 
-import { Button } from '../components/Button';
-import { Cart } from '../components/Cart';
-import { Categories } from '../components/Categories';
-import { Header } from '../components/Header';
-import { Empty } from '../components/Icons/Empty';
-import { Menu } from '../components/Menu';
-import { TableModal } from '../components/TableModal';
-import { CartItem } from '../types/CartItem';
-import { Text } from '../components/Text';
+import { Button } from "../../components/Button";
+import { Cart } from "../../components/Cart";
+import { Categories } from "../../components/Categories";
+import { Header } from "../../components/Header";
+import { Empty } from "../../components/Icons/Empty";
+import { Menu } from "../../components/Menu";
+import { TableModal } from "../../components/TableModal";
+import { CartItem } from "../../types/CartItem";
+import { Text } from "../../components/Text";
 
-import { Product } from '../types/Product';
+import { Product } from "../../types/Product";
 
 import {
   Container,
@@ -19,36 +19,36 @@ import {
   MenuContainer,
   Footer,
   FooterContainer,
-  CenteredContainer
-} from './styles';
-import { Category } from '../types/Category';
+  CenteredContainer,
+} from "./styles";
+import { Category } from "../../types/Category";
 
-import { api } from '../services/api';
+import { api } from "../../services/api";
 
 export function Main() {
-  const [selectedTable, setSelectedTable] = useState('');
+  const [selectedTable, setSelectedTable] = useState("");
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isLoadingProduct, setIsLoadingProduct] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    Promise.all([
-      api.get('/categories'),
-      api.get('/products'),
-    ]).then(([categoriesResponse, productsResponse]) => {
-      setCategories(categoriesResponse.data);
-      setProducts(productsResponse.data);
-      setIsLoading(false);
-    });
+    Promise.all([api.get("/categories"), api.get("/products")])
+      .then(([categoriesResponse, productsResponse]) => {
+        setCategories(categoriesResponse.data);
+        setProducts(productsResponse.data);
+        setIsLoading(false);
+        setIsLoadingProduct(false);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   async function handleSelectCategory(categoryId: string) {
     setIsLoadingProduct(true);
     const route = !categoryId
-      ? '/products'
+      ? "/products"
       : `/categories/${categoryId}/products`;
     const { data } = await api.get(route);
 
@@ -61,7 +61,7 @@ export function Main() {
   }
 
   function handleResetOrder() {
-    setSelectedTable('');
+    setSelectedTable("");
     setCartItems([]);
   }
 
@@ -72,13 +72,13 @@ export function Main() {
 
     setCartItems((prevState) => {
       const itemIndex = prevState.findIndex(
-        cartItem => cartItem.product._id === product._id
+        (cartItem) => cartItem.product._id === product._id
       );
 
       if (itemIndex < 0) {
         return prevState.concat({
           quantity: 1,
-          product
+          product,
         });
       }
 
@@ -97,7 +97,7 @@ export function Main() {
   function handleDecrementCartItem(product: Product) {
     setCartItems((prevState) => {
       const itemIndex = prevState.findIndex(
-        cartItem => cartItem.product._id === product._id
+        (cartItem) => cartItem.product._id === product._id
       );
 
       const newCartItems = [...prevState];
@@ -110,7 +110,6 @@ export function Main() {
         return newCartItems;
       }
 
-
       newCartItems[itemIndex] = {
         ...item,
         quantity: item.quantity - 1,
@@ -118,7 +117,6 @@ export function Main() {
 
       return newCartItems;
     });
-
   }
 
   return (
@@ -131,7 +129,7 @@ export function Main() {
 
         {isLoading ? (
           <CenteredContainer>
-            <ActivityIndicator color="#d73035" size='large' />
+            <ActivityIndicator color="#d73035" size="large" />
           </CenteredContainer>
         ) : (
           <>
@@ -142,24 +140,20 @@ export function Main() {
               />
             </CategoryContainer>
 
-
             {isLoadingProduct ? (
               <CenteredContainer>
-                <ActivityIndicator color="#d73035" size='large' />
+                <ActivityIndicator color="#d73035" size="large" />
               </CenteredContainer>
             ) : (
               <>
                 {products.length > 0 ? (
                   <MenuContainer>
-                    <Menu
-                      products={products}
-                      onAddToCart={handleAddToCart}
-                    />
+                    <Menu products={products} onAddToCart={handleAddToCart} />
                   </MenuContainer>
                 ) : (
                   <CenteredContainer>
                     <Empty />
-                    <Text color='#666' style={{ marginTop: 24 }}>
+                    <Text color="#666" style={{ marginTop: 24 }}>
                       Nenhum produto foi encontrado!
                     </Text>
                   </CenteredContainer>

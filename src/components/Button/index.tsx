@@ -1,29 +1,37 @@
-import { Container } from './styles';
+import { Container } from "./styles";
 
-import { Text } from '../Text';
-import { ActivityIndicator } from 'react-native';
+import { Text } from "../Text";
+import { ActivityIndicator, TouchableOpacityProps } from "react-native";
 
-interface ButtonProps {
+interface ButtonProps extends TouchableOpacityProps {
   children: string;
   onPress: () => void;
   disabled?: boolean;
-  loading?: boolean
+  loading?: boolean;
+  fullWidth?: boolean;
 }
 
 export function Button({
   children,
   onPress,
   disabled = false,
-  loading = false
+  loading = false,
+  fullWidth = false,
+  ...rest
 }: ButtonProps) {
   return (
-    <Container disabled={disabled || loading} onPress={onPress}>
+    <Container
+      fullWidth={fullWidth}
+      disabled={disabled || loading}
+      onPress={onPress}
+      {...rest}
+    >
       {!loading && (
-        <Text weight='600' color='#fff'>{children}</Text>
+        <Text weight="600" color="#fff">
+          {children}
+        </Text>
       )}
-      {loading && (
-        <ActivityIndicator color={'#fff'} />
-      )}
+      {loading && <ActivityIndicator color={"#fff"} />}
     </Container>
   );
 }
