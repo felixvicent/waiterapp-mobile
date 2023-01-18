@@ -42,12 +42,12 @@ export default function AppRoutes() {
         <Tab.Screen
           name="home"
           component={Main}
-          options={{ tabBarLabel: "Home" }}
+          options={{ tabBarLabel: "Home", unmountOnBlur: true }}
         />
         <Tab.Screen
           name="orders"
           component={Orders}
-          options={{ tabBarLabel: "Pedidos" }}
+          options={{ tabBarLabel: "Pedidos", unmountOnBlur: true }}
         />
         <Tab.Screen
           name="profile"
